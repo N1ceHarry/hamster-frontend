@@ -1,94 +1,97 @@
 <template>
-  <div class="text-[24px] font-bold mb-[24px]">Payment</div>
-  <Header :orderInfo="orderInfo" :payMethod="1" />
-  <div class="bg-[#FFFFFF] dark:bg-[#1D1C1A] mt-[25px] rounded-[12px] p-[32px]">
-    <div v-if="status === 1">
-      <div class="flex items-center justify-between">
-        <div>
-          <div class="text-[24px] font-bold">Send USDT on the Ethereum network</div>
-          <div class="text-[#73706E] dark:text-[#E0DBD2]">Open your crypto wallet, scan the QR code or copy the USDT
-            address below to pay</div>
+  <div :class="isMobileDevice()?'p-[20px]':''">
+    <div class="text-[24px] font-bold mb-[24px]">Payment</div>
+    <Header :orderInfo="orderInfo" :payMethod="1" />
+    <div class="bg-[#FFFFFF] dark:bg-[#1D1C1A] mt-[25px] rounded-[12px] p-[32px]">
+      <div v-if="status === 1">
+        <div class="flex items-center justify-between">
+          <div>
+            <div class="text-[24px] font-bold">Send USDT on the Ethereum network</div>
+            <div class="text-[#73706E] dark:text-[#E0DBD2]">Open your crypto wallet, scan the QR code or copy the USDT
+              address below to pay</div>
+          </div>
+          <div class="text-[32px] font-bold flex items-center">
+            <svg-icon name="pay-time" size="24" class="mr-2 mt-[5px]" />
+            {{ time }}
+          </div>
         </div>
-        <div class="text-[32px] font-bold flex items-center">
-          <svg-icon name="pay-time" size="24" class="mr-2 mt-[5px]" />
-          {{ time }}
+        <div class="flex justify-center py-[50px]">
+          <!-- <img src="@/assets/images/pay-code.png" class="w-[200px]" /> -->
+          <div class="bg-[#FFFFFF] p-[12px] border border-dashed dark:border-none">
+            <qrcode-vue v-if="qrcodeUrl" :value="qrcodeUrl" :size="200" />
+          </div>
         </div>
-      </div>
-      <div class="flex justify-center py-[50px]">
-        <!-- <img src="@/assets/images/pay-code.png" class="w-[200px]" /> -->
-        <div class="bg-[#FFFFFF] p-[12px] border border-dashed dark:border-none">
-          <qrcode-vue v-if="qrcodeUrl" :value="qrcodeUrl" :size="200" />
+        <div class="card-div dark:bg-[#36322D] p-[32px] rounded-[12px]">
+          <div class="font-bold mb-[10px]">USDT address</div>
+          <div>{{ orderInfo.receiveAddress }}
+            <svg-icon name="copy" size="18" class="ml-4" @click="copyToClipboard(orderInfo.receiveAddress)" />
+          </div>
         </div>
-      </div>
-      <div class="card-div dark:bg-[#36322D] p-[32px] rounded-[12px]">
-        <div class="font-bold mb-[10px]">USDT address</div>
-        <div>{{ orderInfo.receiveAddress }}
-          <svg-icon name="copy" size="18" class="ml-4" @click="copyToClipboard(orderInfo.receiveAddress)" />
+        <div class="card-div dark:bg-[#36322D] p-[32px] rounded-[12px] mt-[25px]">
+          <div class="font-bold mb-[10px]">Total amount</div>
+          <div>{{ orderInfo.amount }} USDT
+            <svg-icon name="copy" size="18" class="ml-4" @click="copyToClipboard(`${orderInfo.amount} USDT`)" />
+          </div>
         </div>
-      </div>
-      <div class="card-div dark:bg-[#36322D] p-[32px] rounded-[12px] mt-[25px]">
-        <div class="font-bold mb-[10px]">Total amount</div>
-        <div>{{ orderInfo.amount }} USDT
-          <svg-icon name="copy" size="18" class="ml-4" @click="copyToClipboard(`${orderInfo.amount} USDT`)" />
+        <div class="tips-info">
+          <svg-icon name="tips" size="26" class="mr-2" />
+          Send USDT only from the Ethereum network to this address. Do not send USDT from other networks, otherwise it may
+          lead to loss of funds.
         </div>
-      </div>
-      <div class="tips-info">
-        <svg-icon name="tips" size="26" class="mr-2" />
-        Send USDT only from the Ethereum network to this address. Do not send USDT from other networks, otherwise it may
-        lead to loss of funds.
-      </div>
-      <div class="text-center mt-[32px]">
-        <a-button type="primary" ghost class=" w-[120px]" @click="cancelOrder">Cancel</a-button>
-      </div>
-    </div>
-    <div v-else-if="status === 2" class="text-center my-[40px]">
-      <img src="@/assets/images/report-b.png" class="w-[128px] hidden dark:inline-block" />
-      <img src="@/assets/images/report-w.png" class="w-[128px] dark:hidden" />
-      <div class="text-[28px] font-bold">payment Successful</div>
-      <div class="text-[40px] font-bold text-[#E2B578] mt-[20px]">{{ orderInfo.amount }} USDT</div>
-      <div class="text-[21px] text-[#73706E] dark:text-[#E0DBD2]">= ${{ orderInfo.amount }}</div>
-      <div class="text-[21px] mt-[50px] text-[#73706E] dark:text-[#E0DBD2]">
-        Page redirecting automatically. If failed, please <label class="text-[#E2B578] cursor-pointer font-bold"
-          @click="goBack">click here</label>
-      </div>
-    </div>
-    <div v-else-if="status === 3">
-      <div class="text-center">
-        <img src="@/assets/images/cl-noData-block.png" class="w-[128px] h-[128px] hidden dark:inline-block" />
-        <img src="@/assets/images/cl-noData-white.jpg" class="w-[128px] h-[128px] dark:hidden" />
-      </div>
-      <div class="text-[28px] font-bold text-center mt-[30px] mb-[20px]">NO payment</div>
-      <div class="flex justify-center">
-        <div class="text-[#73706E] dark:text-[#E0DBD2] text-[21px] w-[930px] text-center">
-          We continuously monitor the network, but have not detected any payment. If you have paid, please contact the
-          merchant through <label class="text-[#E2B578]">hamster@hamsternet.io</label>
+        <div class="text-center mt-[32px]">
+          <a-button type="primary" ghost class=" w-[120px]" @click="cancelOrder">Cancel</a-button>
         </div>
       </div>
-      <div class="card-div dark:bg-[#36322D] p-[32px] rounded-[12px] mt-[30px]">
-        <div class="font-bold mb-[10px]">Your order ID</div>
-        <div>{{ orderInfo.orderId }}
-          <svg-icon name="copy" size="18" class="ml-4" @click="copyToClipboard(orderInfo.orderId)" />
+      <div v-else-if="status === 2" class="text-center my-[40px]">
+        <img src="@/assets/images/report-b.png" class="w-[128px] hidden dark:inline-block" />
+        <img src="@/assets/images/report-w.png" class="w-[128px] dark:hidden" />
+        <div class="text-[28px] font-bold">payment Successful</div>
+        <div class="text-[40px] font-bold text-[#E2B578] mt-[20px]">{{ orderInfo.amount }} USDT</div>
+        <div class="text-[21px] text-[#73706E] dark:text-[#E0DBD2]">= ${{ orderInfo.amount }}</div>
+        <div class="text-[21px] mt-[50px] text-[#73706E] dark:text-[#E0DBD2]">
+          Page redirecting automatically. If failed, please <label class="text-[#E2B578] cursor-pointer font-bold"
+                                                                   @click="goBack">click here</label>
         </div>
       </div>
-      <div class="text-center mt-[32px]">
-        <a-button type="primary" ghost class=" w-[120px]" @click="cancelOrder">Cancel</a-button>
+      <div v-else-if="status === 3">
+        <div class="text-center">
+          <img src="@/assets/images/cl-noData-block.png" class="w-[128px] h-[128px] hidden dark:inline-block" />
+          <img src="@/assets/images/cl-noData-white.jpg" class="w-[128px] h-[128px] dark:hidden" />
+        </div>
+        <div class="text-[28px] font-bold text-center mt-[30px] mb-[20px]">NO payment</div>
+        <div class="flex justify-center">
+          <div class="text-[#73706E] dark:text-[#E0DBD2] text-[21px] w-[930px] text-center">
+            We continuously monitor the network, but have not detected any payment. If you have paid, please contact the
+            merchant through <label class="text-[#E2B578]">hamster@hamsternet.io</label>
+          </div>
+        </div>
+        <div class="card-div dark:bg-[#36322D] p-[32px] rounded-[12px] mt-[30px]">
+          <div class="font-bold mb-[10px]">Your order ID</div>
+          <div>{{ orderInfo.orderId }}
+            <svg-icon name="copy" size="18" class="ml-4" @click="copyToClipboard(orderInfo.orderId)" />
+          </div>
+        </div>
+        <div class="text-center mt-[32px]">
+          <a-button type="primary" ghost class=" w-[120px]" @click="cancelOrder">Cancel</a-button>
+        </div>
       </div>
-    </div>
-    <div v-else-if="status === 4" class="text-center">
-      <img src="@/assets/images/Failed.png" class="w-[173px] " />
-      <div class="text-[28px] font-bold mt-[30px] mb-[20px]">Payment Failed</div>
-      <div class="text-[#73706E] dark:text-[#E0DBD2] text-[21px] ">
-        The user canceled the payment
+      <div v-else-if="status === 4" class="text-center">
+        <img src="@/assets/images/Failed.png" class="w-[173px] " />
+        <div class="text-[28px] font-bold mt-[30px] mb-[20px]">Payment Failed</div>
+        <div class="text-[#73706E] dark:text-[#E0DBD2] text-[21px] ">
+          The user canceled the payment
+        </div>
+        <a-button type="primary" ghost class="mt-[32px] mb-[100px] w-[120px]" @click="closePage">Close</a-button>
       </div>
-      <a-button type="primary" ghost class="mt-[32px] mb-[100px] w-[120px]" @click="closePage">Close</a-button>
     </div>
   </div>
+
 </template>
 <script setup lang="ts">
 import { ref, onMounted, onUnmounted } from 'vue';
 import { useRoute } from "vue-router";
 import Header from './components/header.vue'
-import { copyToClipboard } from '@/utils/tool'
+import { copyToClipboard, isMobileDevice } from '@/utils/tool'
 import QrcodeVue from "qrcode.vue"
 import web3 from 'web3';
 import { apiOrderDetail, apiCloseOrder } from '@/apis/chainlink'

@@ -139,7 +139,7 @@
   display: inline-block;
   margin: 10px;
   min-width: 230px;
-  width: 23%;
+  width: 100%;
   vertical-align: top;
   border-radius: 12px;
   border: 1px solid transparent;

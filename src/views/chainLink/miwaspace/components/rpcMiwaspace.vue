@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="my-10">
+    <div class="my-10" :class="isMobileDevice()?'p-[12px]':''">
       <span class="text-2xl font-bold">RPC</span>
       <div class="text-base mt-2" style="text-align: justify; text-justify: inter-word;">
         Web3 development is inseparable from the support of blockchain nodes, 
@@ -11,7 +11,7 @@
     </div>
 
     <div class="grid gap-[10px] " :style="styleVal">
-      <div class="ethereum-container" v-for="(item,index) in rpcPageInfo" :key="index">
+      <div class="ethereum-container" :class="isMobileDevice()?'p-[16px]':'p-[30px]'" v-for="(item,index) in rpcPageInfo" :key="index">
         <div class="flex justify-between items-center mb-[50px]">
           <div>
             <img :src="item.ecosystemIcon" class="h-[42px] "/>
@@ -31,6 +31,7 @@
   import { useRouter } from 'vue-router';
   import { message } from 'ant-design-vue';
   import { apiGetZanUserAuthed, apiGetZanAuthUrl } from "@/apis/middlewareRPC"
+  import { isMobileDevice } from "@/utils/tool";
 
   const router = useRouter()
   const props = defineProps({
@@ -91,7 +92,6 @@ onMounted(() => {
     /* display: inline-block; */
     /* // height: 326px; */
     /* min-width: 400px; */
-    padding: 30px;
     background: #F3F3F3;
     border-radius: 12px;
     /* margin: 10px; */

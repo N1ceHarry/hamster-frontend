@@ -34,8 +34,8 @@
     </div>
     <a-tabs v-model:activeKey="activeKey">
       <a-tab-pane key="Solidity" tab="Solidity">
-        <div class="flex">
-          <div class="w-1/4 p-4">
+        <div :class="isMobileDevice()?'':'flex'">
+          <div class="p-4" :class="isMobileDevice()?'w-full':'w-1/4'">
             <div class="font-bold text-[#818998] mb-2">Contract Name</div>
             <div>
               <a-input v-model:value="name" placeholder="" allow-clear autocomplete="off" @change="getContent"
@@ -62,7 +62,7 @@
               </div>
             </div>
           </div>
-          <div class="p-4  w-3/4 h-[700px]">
+          <div class="p-4 h-[700px]"  :class="isMobileDevice()?'w-full':'w-3/4'">
             <CodeEditor :readOnly="true" :value="content"></CodeEditor>
           </div>
         </div>
@@ -101,6 +101,7 @@ import { getFileCoinContent } from '@/utils/fileCoinUtil';
 import type { fileCoinContent } from '@/utils/fileCoinUtil';
 import { Item } from "ant-design-vue/lib/menu";
 import NoData from "@/components/NoData.vue";
+import { isMobileDevice } from "@/utils/tool";
 
 const theme = useThemeStore()
 const activeKey = ref('Solidity')

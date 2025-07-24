@@ -1,9 +1,11 @@
 <template>
   <div>
     <div class="my-10">
-      <div :class="{ 'grid grid-cols-3': pageType !== 'create' }">
+      <div :class="pageType == 'create'||isMobileDevice()?'grid grid-cols-1':'grid grid-cols-3'">
         <div class="rounded-[12px] mr-[30px] p-[30px] text-[#151210] dark:text-[#FFFFFF]"
-          :class="[pageType === 'create' ? 'border border-solid border-[#EBEBEB] dark:border-[#434343]' : theme.themeValue === 'dark' ? 'col-span-2 dark:bg-[#36322D]' : 'col-span-2 box-div border border-solid border-[#EBEBEB]']">
+          :class="[pageType === 'create' ? 'border border-solid border-[#EBEBEB] dark:border-[#434343]' : theme.themeValue === 'dark' ? 'col-span-2 dark:bg-[#36322D]' : 'col-span-2 box-div border border-solid border-[#EBEBEB]']"
+          :style="isMobileDevice()?'margin-right: 0':''"
+        >
           <div class="text-[24px] font-bold mb-[30px]" :class="{ 'text-center': pageType !== 'create' }">Launch Node</div>
           <a-form :model="formData" ref="formRef" :rules="formRules" layout="vertical"
             :class="{ 'w-[75%]': pageType === 'create' }">
@@ -46,7 +48,7 @@
             </a-form-item>
           </a-form>
           <hr />
-          <div class="flex items-center justify-between">
+          <div class="flex items-center justify-between" :class="isMobileDevice()?'flex-wrap':''">
             <div class="text-[#151210] dark:text-[#FFFFFF] font-bold text-[16px]">Cost:<span
                 class="text-[#E2B578] text-[24px] ml-2">${{ resourceInfo.costPerMonth }}</span><span
                 class="mx-1">/</span>Month</div>
@@ -57,7 +59,9 @@
           </div>
         </div>
         <div class="rounded-[12px] p-[30px]" v-if="pageType !== 'create'"
-          :class="[theme.themeValue === 'dark' ? 'dark:bg-[#36322D]' : 'box-div border border-solid border-[#EBEBEB]']">
+          :class="[theme.themeValue === 'dark' ? 'dark:bg-[#36322D]' : 'box-div border border-solid border-[#EBEBEB]']"
+          :style="isMobileDevice()?'margin-top: 20px;':''"
+        >
           <div class="text-center mb-[40px]">
             <svg-icon :name="`${formData.protocol}-logo`" size="40" />
             <div class="text-[18px] font-bold text-[#E2B578] mt-[20px]">The benefits of {{ formData.protocol }}</div>
@@ -145,6 +149,7 @@ import { apiAddProjects, apiGetNodeResource } from "@/apis/node";
 import { message } from 'ant-design-vue';
 import useAssets from "@/stores/useAssets";
 import io from "socket.io-client";
+import {isMobileDevice} from "@/utils/tool";
 
 const theme = useThemeStore();
 const props = defineProps({

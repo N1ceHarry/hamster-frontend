@@ -63,6 +63,17 @@ const layoutClass = computed(() => {
   border-radius: 12px;
   border: 1px solid transparent;
 }
+
+@media screen and (max-width: 600px) {
+  .layout-default-content {
+    width: 100%;
+    min-width: 100%;
+    margin: 0;
+    border-radius: 12px;
+    border: 1px solid transparent;
+    padding: 0;
+  }
+}
 </style>
 <style lang="less">
 

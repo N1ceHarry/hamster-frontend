@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="isMobileDevice()?'p-[12px]':null">
     <div :class="theme.themeValue === 'dark' ? 'dark-css' : 'white-css'" class="flex justify-between">
       <div>
         <a-input v-model:value="keyword" placeholder="Search here..." allow-clear autocomplete="off" @change="goSearch">
@@ -68,6 +68,7 @@
 <script lang='ts' setup>
 import { onMounted, onBeforeUnmount, ref, onBeforeMount } from 'vue';
 import { useRouter } from "vue-router";
+import {isMobileDevice} from '@/utils/tool'
 import Overview from "./components/Overview.vue";
 import ALineService from './components/ALineService.vue';
 import NoData from "@/components/NoData.vue"
@@ -326,6 +327,14 @@ html[data-theme='dark'] {
   padding-top: 0px;
   padding-bottom: 0px;
   width: 350px;
+}
+@media screen and (max-width: 600px) {
+  :deep(.ant-input-affix-wrapper) {
+    border-color: #434343;
+    padding-top: 0px;
+    padding-bottom: 0px;
+    width: 200px;
+  }
 }
 
 :deep(.white-css .ant-input) {

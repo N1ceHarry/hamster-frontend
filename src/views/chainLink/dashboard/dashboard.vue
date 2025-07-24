@@ -1,7 +1,7 @@
 <template>
   <div class="dashboard dark:bg-[#1D1C1A] bg-[#FFFFFF]">
     <div class="font-bold text-[24px] mb-[8px]">My Middleware</div>
-    <div class="grid grid-cols-3 gap-4 ">
+    <div class="grid gap-4 " :class="isMobileDevice()?' grid-cols-1':' grid-cols-3'">
       <div v-for="item in dashboardList" :key="item"
         class="border border-solid dark:border-[#434343] border-[#EBEBEB] rounded-[12px] p-[24px] dark:bg-[#36322D] bg-[#ffffff] relative">
         <div class="text-[16px] font-bold mb-[16px]">{{ item }}</div>
@@ -107,6 +107,7 @@ import { apiGetNodeStatistics } from '@/apis/node'
 import { apiGetIfOpenService } from '@/apis/middleWare'
 import { message } from "ant-design-vue";
 import {getICpStatistics} from "@/apis/icp";
+import {isMobileDevice} from "@/utils/tool";
 const dashboardList = ref(['RPC','Node',"Internet Computer", 'Oracle', 'Storage', 'Graph', 'ZKP', 'Others'])
 const RPCList = ref<any>([]);
 const nodeInfo = ref<any>({});

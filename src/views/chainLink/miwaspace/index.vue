@@ -1,5 +1,5 @@
 <template>
-  <div :class="theme.themeValue === 'dark' ? 'dark-css' : ''" class="rounded-xl bg-white dark:bg-[#1D1C1A] p-[58px]">
+  <div :class="theme.themeValue === 'dark' ? 'dark-css' : ''" class="rounded-xl bg-white dark:bg-[#1D1C1A]" :style="isMobileDevice()?'padding: 8px':'padding: 58px'">
     <div class="mb-20">
       <div class="font-bold text-center text-5xl text-[#E2B578] mb-5">Find your MiddleWare</div>
       <div class="text-2xl text-center">By using middleware provided by Hamster, you can achieve fast development and
@@ -48,6 +48,7 @@
   import zkpMiwaspace from "./components/zkpMiwaspace.vue";
   import nodeService from "./components/nodeService.vue";
   import Icp from "../icp/icp.vue";
+  import {isMobileDevice} from "@/utils/tool";
 
   const router = useRouter()
   const theme = useThemeStore();

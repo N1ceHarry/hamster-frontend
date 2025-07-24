@@ -1,5 +1,5 @@
 <template>
-  <div :class="theme.themeValue === 'dark' ? 'dark-css' : 'white-css'">
+  <div :class="[theme.themeValue === 'dark' ? 'dark-css' : 'white-css',isMobileDevice()?'p-[12px]':null]">
     <bread-crumb :routes="breadCrumbInfo" />
 
     <FrontendTemplate :templatesCategory="templatesCategory" :type="params.type"
@@ -14,8 +14,8 @@
           <div v-if="items.templatesList !== null" class="text-[#73706E] dark:text-[#E0DBD2] mb-[16px]">{{
             items.description
           }}</div>
-          <div v-if="items.templatesList !== null" class="grid grid-cols-3 gap-4"
-            :class="{ 'mb-[32px]': index < templatesCategory.length - 1 }">
+          <div v-if="items.templatesList !== null" class="grid gap-4"
+            :class="{ 'mb-[32px]': index < templatesCategory.length - 1,'grid-cols-1': isMobileDevice(),'grid-cols-3': !isMobileDevice() }">
             <div v-for="(item, index2) in items.templatesList" :key="index2"
               class="border-box dark:bg-[#36322D] dark:border-[#434343] border-[#EBEBEB] hover:border-[#E2B578] dark:hover:border-[#E2B578] rounded-[12px] border border-solid p-4 cursor-pointer"
               @click="goDetail(item.id)">
@@ -48,7 +48,7 @@
           Didn't find what you're looking for?<br />
           Choose standard contract to build your own!
         </div>
-        <div class="grid grid-cols-3 gap-4">
+        <div class="grid gap-4" :class="isMobileDevice()?'grid-cols-1':'grid-cols-3'">
           <div v-for="(item, index) in templateBuild" :key="index" @click="goStandard(item.name)"
             class="border-box dark:bg-[#36322D] dark:border-[#434343] border-[#EBEBEB] hover:border-[#E2B578] dark:hover:border-[#E2B578] rounded-[12px] border border-solid p-4 cursor-pointer">
             <div class="font-bold text-ellipsis">{{ item.name }}</div>
@@ -66,6 +66,7 @@ import { apiTemplatesCategory, apiTemplatesCategoryById } from "@/apis/templates
 import { useThemeStore } from "@/stores/useTheme";
 import FrontendTemplate from "./components/FrontendTemplate.vue";
 import BreadCrumb from "@/components/BreadCrumb.vue";
+import { isMobileDevice } from "@/utils/tool";
 const theme = useThemeStore()
 const { params } = useRoute();
 

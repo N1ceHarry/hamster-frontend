@@ -228,4 +228,16 @@ onMounted(() => {
     }
   }
 }
+@media screen and (max-width: 600px) {
+  .login-box{
+    .login-content{
+      width: calc(100% - 40px);
+      .btn-dis::before{
+        width: 86px;
+        height: 20px;
+        line-height: 20px;
+      }
+    }
+  }
+}
 </style>

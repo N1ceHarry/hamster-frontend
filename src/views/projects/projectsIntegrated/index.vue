@@ -1,29 +1,39 @@
 <template>
   <div class="px-60 ant-layout-content layout-default-content">
-    <div class="flex justify-between">
-      <span class="text-[#151210] dark:text-[#FFFFFF] text-2xl font-bold">Congratulations！</span>
-      <div>
-        <a-button @click="goToGithub" class="!h-[43px] w-[150px]">View your project</a-button>
-        <a-button @click="openInChainIDE" class="!h-[43px] w-[160px] ml-4">Open with ChainIDE</a-button>
+    <div  :class="isMobileDevice()?'m-[20px]':''">
+      <div :class="isMobileDevice()?'':'flex justify-between'">
+        <span class="text-[#151210] dark:text-[#FFFFFF] text-2xl font-bold">Congratulations！</span>
+        <div :class="isMobileDevice()?'mt-[20px]':''">
+          <a-button @click="goToGithub" class="!h-[43px] w-[150px]">View your project</a-button>
+          <a-button @click="openInChainIDE" class="!h-[43px] w-[160px] ml-4">Open with ChainIDE</a-button>
+        </div>
       </div>
-    </div>
-    <div class="flex justify-between">
-      <span v-if="routerType == 'repository'" class="text-[#73706E] dark:text-[#E0DBD2] w-2/3 inline-block mt-2 mb-10">
+      <div :class="isMobileDevice()?'':'flex justify-between'">
+      <span
+          v-if="routerType == 'repository'"
+          class="text-[#73706E] dark:text-[#E0DBD2] inline-block mt-2"
+          :class="isMobileDevice()?'w-full mb-[10px]':'w-2/3 mb-10'"
+      >
         Successfully integrated your Git repository.<br>
         When you push to a Git branch, you can check、build and deploy your smart contract by One-click on Hamster.
       </span>
-      <span v-else class="text-[#73706E] dark:text-[#E0DBD2] w-2/3 inline-block mt-2 mb-10">
+        <span
+            v-else
+            class="text-[#73706E] dark:text-[#E0DBD2] inline-block mt-2 mb-10"
+            :class="isMobileDevice()?'w-full  mb-[10px]':'w-2/3 mb-10'"
+        >
         Your project is fully integrated with GitHub,you can continue develop within your normal developer workflow.
         When you push to a Git branch, you can check、build and deploy your smart contract by One-click on Hamster.
       </span>
-      <a-button class="back-btn" @click="router.push('/projects')">Back to project list ></a-button>
+        <a-button class="back-btn" @click="router.push('/projects')">Back to project list ></a-button>
+      </div>
+      <div :class="isMobileDevice()?'mt-[20px]':''">
+        <img src="@/assets/images/integrated-bg-black.png" class="hidden w-full dark:inline-block"/>
+        <img src="@/assets/images/integrated-bg-white.png" class="w-full dark:hidden"/>
+      </div>
     </div>
-    <div>
-      <img src="@/assets/images/integrated-bg-black.png" class="hidden w-full dark:inline-block"/>
-      <img src="@/assets/images/integrated-bg-white.png" class="w-full dark:hidden"/>
-    </div>
+
   </div>
-  
   <!-- <div class="my-8 text-center">
     <img src="@/assets/images/light-gridding.png" class="w-full -mt-8 dark:hidden"/>
     <img src="@/assets/images/dark-gridding.png" class="hidden w-full -mt-8 dark:inline-block"/>
@@ -32,6 +42,7 @@
 </template>
 
 <script lang="ts" setup>
+import {isMobileDevice} from "@/utils/tool";
 import { onMounted, ref, onBeforeMount, onBeforeUnmount } from 'vue';
 import { useRouter } from 'vue-router'
 import { apiGetProjectsDetail } from "@/apis/projects";

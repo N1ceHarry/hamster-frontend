@@ -8,7 +8,7 @@
           logic</div>
         <div class="h-[1px] my-[32px] border border-solid dark:border-[#434343] border-[#EBEBEB]"></div>
       </div>
-      <div class="grid grid-cols-2 gap-8">
+      <div class="grid gap-8" :class="isMobileDevice()?'grid-cols-1':'grid-cols-2'">
         <div>
           <DeploymentOrder @selectContractId="selectContractId"></DeploymentOrder>
         </div>
@@ -49,6 +49,7 @@ import DeploymentOrder from "@/views/projects/projectsDeploymentOrchestration/co
 import ContractParams from '@/views/projects/projectsDeploymentOrchestration/components/ContractParams.vue';
 import InvokeContract from '@/views/projects/projectsDeploymentOrchestration/components/InvokeContract.vue';
 import { apiGetProjectsDetail } from '@/apis/projects'
+import { isMobileDevice } from "@/utils/tool";
 const theme = useThemeStore();
 const breadCrumbInfo = ref<any>([]);
 const selectedId = ref('');

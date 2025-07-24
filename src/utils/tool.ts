@@ -76,3 +76,8 @@ export const getPonitStr = (str:string, start:number, end:number)=>{
     return str
   }
 }
+
+// utils/device.js
+export function isMobileDevice() {
+  return window.innerWidth <= 768;
+}

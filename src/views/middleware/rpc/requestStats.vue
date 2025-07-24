@@ -20,14 +20,14 @@
 
         <div>
             <a-row>
-                <a-col :span="18">
+                <a-col :span="isMobileDevice()?'24':'18'">
                     <div>
                         主echart折线图  "apiZanApiKeyRequestStats"
 
                         {{mainChart}}
                     </div>
                 </a-col>
-                <a-col :span="6">
+                <a-col :span="isMobileDevice()?'24':'6'">
                     <a-row>
                         <a-col>
                             <div>第一个圆饼  Top 5   "apiZanApiKeyRequestStats"</div>
@@ -56,6 +56,7 @@
 
 import {apiZanEcosystemsDigest, apiZanApiKeyRequestStats, apiZanApiKeyRequestOriginStats,apiZanApiKeyRequestActivityStats} from "@/apis/middlewareRPC"
 import {onMounted, ref} from "vue";
+import {isMobileDevice} from "@/utils/tool";
 
 const props = defineProps({
     apps: {

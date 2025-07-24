@@ -1,6 +1,6 @@
 <template>
   <div :class="theme.themeValue === 'dark' ? 'dark-css' : 'white-css'">
-    <div class="card mt-[20px]">
+    <div class="card mt-[20px]" :class="isMobileDevice()?'p-[20px]':'p-[120px]'">
       <img class="h-[108px] w-[108px]" src="@/assets/images/ImportInstall.png" />
       <div class="my-[20px]">Install the Github application for the accounts you wish to import from to continue</div>
       <a-button type="primary" class="w-[150px]" @click="installGit">Install</a-button>
@@ -11,6 +11,7 @@
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/useTheme";
+import { isMobileDevice } from "@/utils/tool";
 const theme = useThemeStore();
 const router = useRouter();
 const apiUrl = ref(import.meta.env.VITE_HAMSTER_URL)
@@ -57,7 +58,6 @@ onMounted(() => {
   background: #35322E;
   border-radius: 12px;
   border: 1px solid #434343;
-  padding: 120px;
   text-align: center;
 }
 

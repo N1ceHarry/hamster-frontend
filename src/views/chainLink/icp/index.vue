@@ -49,7 +49,7 @@
           <div class="titleLft">Canisters</div>
           <a-button type="primary" @click="handleAdd" class="rhtBtn">Add Canister</a-button>
         </div>
-        <a-table :dataSource="nodeListData" :columns="nodeColumns" :pagination="pagination" style="width:100%">
+        <a-table :dataSource="nodeListData" :columns="nodeColumns" :pagination="pagination" style="width:100%;" :style="isMobileDevice()?'overflow: scroll':''">
           <template #bodyCell="{ column, record }">
             <template v-if="column.key === 'action'">
               <a-button type="link" @click="goDetail(record.canisterId)">Detail</a-button>
@@ -85,6 +85,7 @@ import { LoadingOutlined } from '@ant-design/icons-vue';
 const loading = ref(false);
 
 import { h } from 'vue';
+import {isMobileDevice} from "@/utils/tool";
 const indicator = h(LoadingOutlined, {
   style: {
     fontSize: '20px',

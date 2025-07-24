@@ -1,14 +1,14 @@
 <template>
-  <div>
+  <div :class="isMobileDevice()?'p-[20px]':null">
     <div class="text-[24px] font-bold mb-[25px]">Your Orders</div>
-    <div class="dark:bg-[#1D1C1A] rounded-[12px] p-[32px]">
-      <div class="mb-[25px] flex">
-        <a-range-picker format="YYYY-MM-DD" @change="handleSearchDate" class="w-1/2"
+    <div class="dark:bg-[#1D1C1A] rounded-[12px]" :class="isMobileDevice()?'p-[12px]':'p-[32px]'">
+      <div class="mb-[25px] flex" :class="isMobileDevice()?'flex-wrap':''">
+        <a-range-picker format="YYYY-MM-DD" @change="handleSearchDate" :class="isMobileDevice()?'w-full':'w-1/2'"
           v-model:value="searchData.orderDate" />
-        <a-input-search @search="getTableData()" class="ml-[30px]" v-model:value="searchData.query" autocomplete="off"
+        <a-input-search @search="getTableData()"  :class="isMobileDevice()?'w-full mt-[20px]':'ml-[30px]'" v-model:value="searchData.query" autocomplete="off"
           placeholder="Search here..."></a-input-search>
       </div>
-      <a-table :dataSource="orderListData" :columns="orderColumns" :pagination="pagination" style="width:100%">
+      <a-table :dataSource="orderListData" :columns="orderColumns" :pagination="pagination" style="width:100%;overflow: scroll">
         <template #bodyCell="{ column, record, text }">
           <template v-if="column.dataIndex === 'orderId'">
             <label>{{ record.orderId }} <svg-icon name="copy" size="18"
@@ -49,7 +49,7 @@
 import { onMounted, reactive, ref, onUnmounted } from 'vue';
 import { useRouter } from "vue-router";
 import { formatDateToLocale } from '@/utils/dateUtil';
-import { copyToClipboard } from '@/utils/tool'
+import { copyToClipboard, isMobileDevice } from '@/utils/tool'
 import { OrderStatusEnum, OrderTypeEnum } from "@/enums/statusEnum";
 import { apiGetOrderList } from "@/apis/node";
 import { apiCloseOrder } from "@/apis/chainlink";

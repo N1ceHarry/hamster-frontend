@@ -1,8 +1,8 @@
 <template>
   <div :class="theme.themeValue === 'dark' ? 'dark-css' : 'white-css'">
-    <div class="flex items-center justify-between">
+    <div class="flex items-center justify-between" :class="isMobileDevice()?'flex-wrap p-[12px]':''">
       <bread-crumb :routes="breadCrumbInfo" />
-      <div>
+      <div :class="isMobileDevice()?'mt-[12px]':''">
         <a-button type="primary" ghost @click="getProjectsContract">{{ templatesDetail.version }}（latest）</a-button>
         <a-button type="primary" class="ml-4" :loading="downloadLoading" @click="downloadTemplate">Download</a-button>
         <a ref="downloadLinkRef" style="display: none;"></a>
@@ -34,7 +34,7 @@
             </div>
 
           </template>
-          <a-button type="primary" :loading="createProjectLoading">
+          <a-button type="primary" :style="isMobileDevice()?'margin-left: 0;margin-top: 12px':''" :loading="createProjectLoading">
             {{
               createTemplate
             }}
@@ -59,16 +59,16 @@
     <FrontendTemplateDeatilVue :text="frontendTemplatesDetail" :showUrl="showUrl"
       v-if="params.type === '2' || params.type == '3'" :projectType="projectType">
     </FrontendTemplateDeatilVue>
-    <div v-if="params.type === '1'">
+    <div v-if="params.type === '1'" :class="isMobileDevice()?'p-[12px]':'p-[32px]'">
       <div class="mt-[32px] rounded-[12px] dark:bg-[#1D1C1A] bg-[#FFFFFF]">
-        <div class="bg-[#36322D] rounded-tl-[12px] rounded-tr-[12px] p-[32px]">
+        <div class="bg-[#36322D] rounded-tl-[12px] rounded-tr-[12px]" :class="isMobileDevice()?'p-[20px]':'p-[32px]'">
           <div class="text-[24px] font-bold text-[#FFFFFF]">{{ templatesDetail.name }} Contract</div>
           <div class="mt-2 text-[#BBBAB9]">{{ templatesDetail.description }}</div>
         </div>
-        <div class="p-[32px]">
+        <div :class="isMobileDevice()?'p-[12px]':'p-[32px]'">
           <div class="text-[24px] font-bold" v-if="templatesDetail.extensions !== ''">Extensions</div>
-          <div :class="theme.themeValue === 'dark' ? 'dark-css' : 'white-css'" v-if="templatesDetail.extensions !== ''"
-            class="mt-4 border border-solid border-[#E2B578] bg-[#FFFCF9] dark:bg-[#36322D] p-4 rounded-[12px] grid grid-cols-5 gap-4">
+          <div :class="[theme.themeValue === 'dark' ? 'dark-css' : 'white-css',isMobileDevice()?'grid-cols-1':'grid-cols-5']" v-if="templatesDetail.extensions !== ''"
+            class="mt-4 border border-solid border-[#E2B578] bg-[#FFFCF9] dark:bg-[#36322D] p-4 rounded-[12px] grid gap-4">
             <a-checkbox disabled="true" v-for="(items, index) in checkboxList" :key="index"
               v-if="templatesDetail.extensions !== ''" checked="true">{{ items }}</a-checkbox>
           </div>
@@ -125,8 +125,8 @@
             </div>
           </a-tab-pane>
           <a-tab-pane key="1" tab="Functions" v-if="frameType !== '5'">
-            <div class="flex">
-              <div class="w-1/4 p-4 border-r-css">
+            <div class="flex" :class="isMobileDevice()?'flex-wrap':''">
+              <div class="p-4" :class="isMobileDevice()?'w-[240px]':'w-1/4 border-r-css'">
                 <div class="flex items-center mb-4">
                   <img src="@/assets/icons/send-w.svg" class="h-[20px] dark:hidden mr-[5px]" />
                   <img src="@/assets/icons/send-dark.svg" class="h-[20px] hidden dark:inline-block mr-[5px]" />Send
@@ -153,7 +153,7 @@
                     v-for="(item, index) in callList" :key="index">{{ item.name }}</div> -->
                 </div>
               </div>
-              <div class="w-3/4 p-4">
+              <div class="w-3/4 p-4" :class="isMobileDevice()?'w-full':'w-3/4'">
                 <div class="flex justify-between">
                   <div class="text-[16px] font-bold">{{ functionName }}</div>
                   <div class="dark:text-[#E0DBD2] text-[#73706E]">inputs</div>
@@ -231,6 +231,7 @@ import axios from "axios";
 import YAML from "yaml";
 import BreadCrumb from "@/components/BreadCrumb.vue";
 import { getExample, getSimpleToDo, toICPService, toDisplay } from "@/utils/contractICPMove";
+import { isMobileDevice } from "@/utils/tool";
 
 const theme = useThemeStore()
 const downloadLoading = ref(false)

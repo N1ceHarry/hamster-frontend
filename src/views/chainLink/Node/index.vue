@@ -4,7 +4,7 @@
         <div class="text-[24px] font-bold">Node</div>
         <a-button type="primary" @click="launchNode">Launch Node</a-button>
       </div>
-      <a-table :dataSource="nodeListData" :columns="nodeColumns" :pagination="pagination" style="width:100%">
+      <a-table :dataSource="nodeListData" :columns="nodeColumns" :pagination="pagination" style="width:100%;" :style="isMobileDevice()?'overflow: scroll':''">
         <template #bodyCell="{ column, record }">
           <template v-if="column.key === 'action'">
             <a-button type="link" @click="goNodeDetail(record.id)">Detail</a-button>
@@ -18,6 +18,7 @@ import { onMounted, reactive, ref } from 'vue';
 import { useRouter, useRoute } from "vue-router";
 import { NodeStatusEnum } from "@/enums/statusEnum";
 import { apiGetNodeList } from "@/apis/node";
+import {isMobileDevice} from "@/utils/tool";
 
 const router = useRouter();
 const route = useRoute()

@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div :class="isMobileDevice()?'p-[20px]':''">
     <div class="text-[24px] font-bold mb-[24px]">Payment</div>
     <Header :orderInfo="orderInfo" :payMethod="2" />
     <div class="bg-[#FFFFFF] dark:bg-[#1D1C1A] mt-[25px] rounded-[12px] p-[32px]">
@@ -10,8 +10,8 @@
           <img src="@/assets/images/RMB-QR-Code.png" class="w-[218px]" />
         </div>
         <div class="text-center">
-          <a-button type="primary" ghost class="mr-[20px] w-[240px] h-[43px]"
-            @click="paymentFailed = true">Cancel</a-button>
+          <a-button type="primary" ghost class="w-[240px] h-[43px]"
+            @click="paymentFailed = true" :class="isMobileDevice()?'mb-[20px]':'mr-[20px]'">Cancel</a-button>
           <a-button class="w-[240px]" type="primary" @click="paymentFinished">Payment Finished</a-button>
         </div>
       </div>
@@ -29,6 +29,7 @@ import { ref, onMounted } from 'vue';
 import Header from './components/header.vue';
 import { apiOrderDetail } from '@/apis/chainlink';
 import { useRoute, useRouter } from "vue-router";
+import { isMobileDevice } from "@/utils/tool";
 
 const route = useRoute();
 const router = useRouter();

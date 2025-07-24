@@ -1,10 +1,10 @@
 <template>
-  <div :class="theme.themeValue === 'dark' ? 'dark-css' : 'white-css'">
+  <div :class="[theme.themeValue === 'dark' ? 'dark-css' : 'white-css',isMobileDevice()?'p-[20px]':'']">
     <div class="text-[24px] font-bold">Add New Project</div>
     <div class="text-[16px] text-[#73706E] dark:text-[#E0DBD2]">Ready to start Aline Service? Get started with use an
       existing repository.
     </div>
-    <div class="grid grid-cols-2 gap-8 mt-4 dark:bg-[#1D1C1A] bg-[#FFFFFF] rounded-[16px] py-[24px] px-[32px]">
+    <div class="grid gap-8 mt-4 dark:bg-[#1D1C1A] bg-[#FFFFFF] rounded-[16px] py-[24px] px-[32px]" :class="isMobileDevice()?'grid-cols-1':'grid-cols-2'">
       <div>
         <a-form :class="theme.themeValue === 'dark' ? 'dark-css' : 'white-css'" :model="formData" layout="vertical">
           <a-form-item class="new-label" label="Project Type" name="type">
@@ -36,6 +36,7 @@ import { ref, reactive, onMounted } from "vue";
 import { useThemeStore } from "@/stores/useTheme";
 import ImportInstall from "@/views/projects/projectsCreat/components/ImportInstall.vue";
 import ImportGitRepository from "@/views/projects/projectsCreat/components/ImportGitRepository.vue"
+import { isMobileDevice } from "@/utils/tool";
 const formData = reactive(JSON.parse(localStorage.getItem('createFormData'))) || reactive({
   name: '',
   type: '1',

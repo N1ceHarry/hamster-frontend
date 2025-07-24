@@ -9,7 +9,7 @@
         logic</div>
       <!-- line -->
       <div class="h-[1px] my-[32px] border border-solid dark:border-[#434343] border-[#EBEBEB]"></div>
-      <div class="grid grid-cols-2 gap-8">
+      <div class="grid gap-8" :class="isMobileDevice()?'grid-cols-1':'grid-cols-2'">
         <!-- left -->
         <div>
           <DeploymentOrder ref="deploymentRef" v-if="contractOrchestration.length || noUseContract.length" @selectContractId="selectContractId" :contractOrchestration="contractOrchestration"
@@ -68,6 +68,7 @@
 </template>
 
 <script setup lang="ts">
+import {isMobileDevice} from "@/utils/tool";
 import { onMounted, ref, watch } from 'vue';
 import YAML from "yaml";
 import { useRoute, useRouter } from 'vue-router';
@@ -223,8 +224,8 @@ const selectContractId = async (id: string, abiInfo: any) => {
   //设置abliInfo数据
   setAbiInfo(abiInfo, selectedName.value, 'all');
   //Invoke Contract Method字段赋值
-  setFunctionParamsValue(); 
-  //Contract Parameters 清空字段验证 
+  setFunctionParamsValue();
+  //Contract Parameters 清空字段验证
   if (paramsRef.value.formContractRef != undefined) {
     await paramsRef.value.formContractRef.clearValidate();
   }
@@ -266,16 +267,16 @@ const setAbiInfo = (abiInfo: any, mapKey: string, setType: string) => {
     methodFunctionData.value = [];
     methodFormList.val = {};
   }
-  
+
   let abiInfoData = YAML.parse(abiInfo);
-  
+
   abiInfoData.map((item: any) => {
     if (item.type === 'constructor' && setType !== 'method') {
       setConstructorParams(item);
     } else if (item.type === 'function' && item.stateMutability != 'pure') {
       setFunctionParams(item, mapKey);
     }
-  }) 
+  })
   // 已经保存过的合同数据，不重复保存
   if (!methodMap.get(mapKey)) {
     methodFunctionData.value.sort(); //排序
@@ -337,7 +338,7 @@ const setFunctionParamsValue = () => {
   if (methodFormValue.value.length > 0) {
     methodFormValue.value.forEach((item: any) => {
       //保存的合同，字段没有进行整理
-      if (!methodMap.get(item.contractName)) { 
+      if (!methodMap.get(item.contractName)) {
         contractOrchestration.value.forEach((element: any) => {
           if (element.name === item.contractName) {
             setAbiInfo(element.abiInfo, item.contractName, 'method');
@@ -350,7 +351,7 @@ const setFunctionParamsValue = () => {
         methodType: item.method,
         customParams: '',
       };
-      
+
       //给自定义字段赋值
       let custObj = JSON.parse(item.value);
       let str = '';
@@ -367,7 +368,7 @@ const setFunctionParamsValue = () => {
           param[it.name] = item.params[k];
         }
       })
-      contractRef.value.methodList.push({formData: param});  
+      contractRef.value.methodList.push({formData: param});
     });
     contractRef.value.showMethod = true;
 
@@ -431,7 +432,7 @@ const setCustomParams = (customParams: string) => {
       custParam[paramStr[0]] = paramStr[1];
     }
   });
-    
+
   return custParam;
 }
 //Invoke Contract Method
@@ -511,7 +512,7 @@ const checkContractForm = async () => {
 const saveSingleContractInfo = async () => {
   //字段非空验证
   await checkContractForm();
- 
+
   //设置合同数据
   setContractInfo();
   console.log("originalArrange.value::",originalArrange.value);
@@ -533,7 +534,7 @@ const saveSingleContractInfo = async () => {
   }
 }
 
-// 获取单个合约的最新编排信息  
+// 获取单个合约的最新编排信息
 const getSingleContractInfo = async () => {
   contractSingileInfo.value = {}; //清空合同信息
   try {
@@ -552,9 +553,9 @@ const getSingleContractInfo = async () => {
     } else {
       emptyFormValue();
     }
-    
+
     console.log("单个合约信息：", contractSingileInfo.value);
-    
+
   } catch (error: any) {
     console.log("erro:", error)
   }
@@ -632,7 +633,7 @@ const deployManyContract = async () => {
     if (noSaveContract.value.length == 0) {
       // 保存编排信息
       await saveOrchestrationInfo();
-      
+
       // 部署调用代码
       visibleNumber.value = true
     } else {
@@ -679,8 +680,8 @@ const checkContractParam = () => {
       if (abiItem.type === 'constructor' && abiItem.inputs.length > 0) {
         noSaveContract.value.push(item.name);
         noParam = false;
-      } 
-    }) 
+      }
+    })
     // 记录没有参数需要设置的合同
     if (noParam) {
       noParamsContract.value.push(item.name);
@@ -690,7 +691,7 @@ const checkContractParam = () => {
 
 // 获取已经编排过的合约列表
 const getArrangeDeployList = async () => {
-  
+
   const res = await apiArrangeDeployList(route.query.id, baseInfo.value.selectedVersion)
   console.log('获取已经编排过的合约列表:', res)
   if (res.code == 200) {
@@ -792,7 +793,7 @@ onMounted(async () => {
     selectContractId(itemVal.id+'$'+itemVal.name, itemVal.abiInfo)
   }
 
-  if (!showFooter) {  
+  if (!showFooter) {
     await getEVMNetwork()
   }
 })
@@ -830,4 +831,4 @@ onMounted(async () => {
   }
 
 }
-</style>#E2B578
+</style>

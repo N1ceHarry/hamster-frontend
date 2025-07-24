@@ -1,12 +1,12 @@
 <template>
-  <div>
+  <div :class="isMobileDevice()?'p-[12px]':''">
     <div class="mb-[32px]">
       <div class="text-[24px] font-bold">Let‘s create your project.</div>
       <div class="dark:text-[#E0DBD2] text-[#73706E]">Ready to start building? Get started with one of our Templates.
       </div>
     </div>
-    <div class="mt-4 dark:bg-[#1D1C1A] bg-[#FFFFFF] rounded-[16px] py-[24px] px-[32px]">
-      <div class="grid grid-cols-2 gap-8">
+    <div class="mt-4 dark:bg-[#1D1C1A] bg-[#FFFFFF] rounded-[16px] py-[24px]" :class="isMobileDevice()?'p-[12px]':'px-[32px]'">
+      <div class="grid-cols-2 gap-8" :class="isMobileDevice()?'':'grid'">
         <a-form :class="theme.themeValue === 'dark' ? 'dark-css' : 'white-css'" :model="formData" layout="vertical">
           <!-- <a-form-item label="Project Name" name="name">
             <a-input v-model:value="formData.name" placeholder="Project Name" allow-clear autocomplete="off" />
@@ -188,7 +188,7 @@
         </div>
       </div>
       <div v-show="formData.contractCode == '1'" class="w-full mt-8 text-center">
-        <a-button type="primary" :loading="loading" @click="goNext" class="w-[440px]">Next</a-button>
+        <a-button type="primary" :loading="loading" @click="goNext" :class="isMobileDevice()?'w-[200px]':'w-[440px]'">Next</a-button>
       </div>
     </div>
   </div>
@@ -202,6 +202,7 @@ import { useThemeStore } from "@/stores/useTheme";
 import ImportGitRepository from './components/ImportGitRepository.vue'
 import FilecoinTemplate from './components/FilecoinTemplate.vue';
 import { formatDateToLocale } from '../../../utils/dateUtil';
+import { isMobileDevice } from "@/utils/tool";
 
 const theme = useThemeStore()
 

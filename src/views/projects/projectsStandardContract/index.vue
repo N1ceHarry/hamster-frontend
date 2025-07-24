@@ -35,8 +35,8 @@
 
     <a-tabs v-model:activeKey="activeKey">
       <a-tab-pane key="ERC20" tab="ERC20">
-        <div class="flex">
-          <div class="w-1/4 p-4">
+        <div class="" :class="isMobileDevice()?'':'flex'">
+          <div class="p-4" :class="isMobileDevice()?'w-full':'w-1/4'">
             <SettingsERC20 :opts="optsERC20" @showContract="setContract" />
             <FeaturesERC20 :opts="optsERC20" @checkboxClick="checkboxClick" />
             <AccessControl :opts="optsERC20" @showContract="setContract" />
@@ -77,14 +77,14 @@
             </div>
 
           </div>
-          <div class="p-4  w-3/4 h-[700px]">
+          <div class="p-4 h-[700px]" :class="isMobileDevice()?'w-full':'w-3/4'">
             <CodeEditor :readOnly="true" :value="contractERC20"></CodeEditor>
           </div>
         </div>
       </a-tab-pane>
       <a-tab-pane key="ERC721" tab="ERC721">
-        <div class="flex">
-          <div class="w-1/4 p-4">
+        <div :class="isMobileDevice()?'':'flex'">
+          <div class="p-4" :class="isMobileDevice()?'w-full':'w-1/4'">
             <SettingsERC721 :opts="optsERC721" @showContract="setContract" />
             <FeaturesERC721 :opts="optsERC721" @checkboxClick="checkboxClick" />
             <AccessControl :opts="optsERC721" @showContract="setContract" />
@@ -125,14 +125,14 @@
             </div>
 
           </div>
-          <div class="p-4  w-3/4 h-[700px]">
+          <div class="p-4 h-[700px]" :class="isMobileDevice()?'w-full':'w-3/4'">
             <CodeEditor :readOnly="true" :value="contractERC721"></CodeEditor>
           </div>
         </div>
       </a-tab-pane>
       <a-tab-pane key="ERC1155" tab="ERC1155">
-        <div class="flex">
-          <div class="w-1/4 p-4">
+        <div :class="isMobileDevice()?'':'flex'">
+          <div class="p-4" :class="isMobileDevice()?'w-full':'w-1/4'">
             <SettingsERC1155 :opts="optsERC1155" @showContract="setContract" />
             <FeaturesERC1155 :opts="optsERC1155" @checkboxClick="checkboxClick" />
             <AccessControl :opts="optsERC1155" @showContract="setContract" />
@@ -171,7 +171,7 @@
             </div>
 
           </div>
-          <div class="p-4  w-3/4 h-[700px]">
+          <div class="p-4 h-[700px]" :class="isMobileDevice()?'w-full':'w-3/4'">
             <CodeEditor :readOnly="true" :value="contractERC1155"></CodeEditor>
           </div>
         </div>
@@ -212,7 +212,7 @@ import { useThemeStore } from "@/stores/useTheme";
 import { apiProjectsCode, apiDupProjectName, apiGithubInstallCheck, apiGithubUsersInstallations } from "@/apis/projects";
 import { message } from "ant-design-vue";
 import NoData from "@/components/NoData.vue";
-import { downloadRequest } from '@/utils/tool'
+import { downloadRequest, isMobileDevice } from '@/utils/tool'
 const theme = useThemeStore()
 const router = useRouter();
 const gitUrl = ref(import.meta.env.VITE_HAMSTER_RW_URL)

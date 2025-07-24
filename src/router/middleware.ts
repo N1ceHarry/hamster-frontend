@@ -23,7 +23,6 @@ const middlewareRoute = [
       },
       {
         path: "/middleware/dashboard/RPC",
-        name: "RPC",
         key: 'RPC',
         redirect: "/middleware/dashboard/RPC",
         meta: {
@@ -115,7 +114,6 @@ const middlewareRoute = [
       },
       {
         path: "/middleware/dashboard/icp",
-        name: "Internet Computer",
         redirect: "/middleware/dashboard/icp",
         meta: {
           isShow: true,
@@ -146,7 +144,6 @@ const middlewareRoute = [
       },
       {
         path: "/middleware/dashboard/node",
-        name: "Node",
         redirect: "/middleware/dashboard/node",
         meta: {
           isShow: true,
@@ -177,7 +174,6 @@ const middlewareRoute = [
       },
       {
         path: "/middleware/dashboard/oracle",
-        name: "Oracle",
         redirect: "/middleware/dashboard/oracle",
         meta: {
           isShow: true,
@@ -219,7 +215,6 @@ const middlewareRoute = [
       },
       {
         path: "/middleware/dashboard/ZKP",
-        name: 'ZKP',
         redirect: "/middleware/dashboard/ZKP",
         meta: {
           isShow: true,
@@ -236,7 +231,6 @@ const middlewareRoute = [
       },
       {
         path: "/middleware/dashboard/graph",
-        name: 'Graph',
         redirect: "/middleware/dashboard/graph",
         meta: {
           isShow: true,
@@ -253,7 +247,6 @@ const middlewareRoute = [
       },
       {
         path: "/middleware/dashboard/storage",
-        name: 'Storage',
         redirect: "/middleware/dashboard/storage",
         meta: {
           isShow: true,
@@ -270,7 +263,6 @@ const middlewareRoute = [
       },
       {
         path: "/middleware/dashboard/others",
-        name: "Others",
         redirect: "/middleware/dashboard/others",
         meta: {
           isShow: true,

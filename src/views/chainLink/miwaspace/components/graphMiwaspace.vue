@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="mt-10 mb-5">
+    <div class="mt-10 mb-5" :class="isMobileDevice()?'p-[12px]':''">
       <span class="text-2xl font-bold">Graph</span>
       <div class="text-base mt-2" style="text-align: justify; text-justify: inter-word;">
         Data sharing on the blockchain can be queried and obtained by everyone, 
@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div class="graph-container">
+    <div class="graph-container" :class="isMobileDevice()?'p-[16px]':'p-[30px]'">
       <span class="text-base font-bold">SubQuery</span>
       <div class="text-sm h-[110px] content">
         SubQuery is an Open, Flexible, Fast and Universal data indexing framework
@@ -21,7 +21,7 @@
       </div>
       <a-button class="!h-[43px] w-[169px] !cursor-default">Coming Soon</a-button>
     </div>
-    <div class="graph-container">
+    <div class="graph-container" :class="isMobileDevice()?'p-[16px]':'p-[30px]'">
       <span class="text-base font-bold">KNN3</span>
       <div class="text-sm h-[110px] content">
         KNN3 Network is a one-stop Web3 User-centric DataFi solution for d/Apps
@@ -38,8 +38,8 @@
     display: inline-block;
     margin-right: 20px;
     width: 456px;
+    max-width: 100%;
     height: 266px;
-    padding: 30px;
     background: rgba(226,181,120,0.1);
     border-radius: 12px;
     border: 1px solid #EBEBEB;
@@ -49,3 +49,6 @@
     margin: 10px 0;
   }
 </style>
+<script setup lang="ts">
+import { isMobileDevice } from "@/utils/tool";
+</script>

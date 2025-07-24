@@ -1,72 +1,136 @@
 <template>
-  <div class="default-header bg-[#FFFFFF] dark:bg-[#1D1C1A] flex justify-between">
-    <div class="flex items-center cursor-pointer">
-      <div class="flex items-center cursor-pointer" @click="goHome">
-        <img src="@/assets/icons/logo-dark.svg" class="h-[36px] hidden dark:inline-block" />
-        <img src="@/assets/icons/logo-white.svg" class="h-[36px] dark:hidden" />
-      </div>
-      <div @click="goPrjects" :class="{ 'header-menu-line': selectedNavTitle === 'projects' }"
-        class="ml-12 mr-8 header-text-css" id="pro">Project</div>
-      <a-dropdown>
-        <div class="header-text-css"
-          :class="{ 'header-menu-line': selectedNavTitle === 'dashboard' || selectedNavTitle === 'miwaspace' }"
-          @click.stop>
-          Middleware
-          <img src="@/assets/icons/skx.svg" alt="" class="h-[7px] hidden up-tran">
-          <img src="@/assets/icons/skx1.svg" alt="" class="h-[7px] inline-block up-tran">
+  <div class="default-header bg-[#FFFFFF] dark:bg-[#1D1C1A] flex">
+    <div v-if="isMobileDevice()" class="flex justify-between" style="width: 100%;">
+      <div class="flex items-center cursor-pointer">
+        <div class="flex items-center cursor-pointer" @click="goHome">
+          <img src="@/assets/icons/logo-dark.svg" class="h-[36px] hidden dark:inline-block" />
+          <img src="@/assets/icons/logo-white.svg" class="h-[36px] dark:hidden" />
         </div>
-        <template #overlay>
-          <a-menu>
-            <a-menu-item @click="goDashboard">
-              Dashboard
-            </a-menu-item>
-            <a-menu-item @click="goMiwaspace">
-              Miwaspace
-            </a-menu-item>
-          </a-menu>
-        </template>
-      </a-dropdown>
-      <!-- <div @click="goAgent" :class="{ 'header-menu-line': selectedNavTitle == 'aiAgent' }" class="ml-8 header-text-css"
-        id="pro">AI Agent</div> -->
-      <div @click="goTemplate" class="ml-8 mr-8 header-text-css"
-        :class="{ 'header-menu-line': selectedNavTitle === 'template' }">
-        Template</div>
-      <div @click="goDoc" class="mr-8 header-text-css">Docs</div>
+
+      </div>
+      <div class="flex items-center">
+        <div class="ml-8">
+          <UnorderedListOutlined @click="showMenu=true" class="dark:text-white text-[#151210]" style="font-size: 30px"/>
+        </div>
+      </div>
     </div>
-    <div class="flex items-center">
-      <div class="cursor-pointer flex h-[36px]">
-        <div @click="changeTheme('dark')"
-          class="dark:bg-[#E2B578] w-[44px] border border-solid border-[#E2B578] flex items-center justify-center rounded-tl-[6px] rounded-bl-[6px]">
-          <img src="@/assets/icons/dark-b.svg" class="h-[20px] hidden dark:inline-block" />
-          <img src="@/assets/icons/dark.svg" class="h-[20px] dark:hidden" />
+    <div v-else class="flex justify-between">
+      <div class="flex items-center cursor-pointer">
+        <div class="flex items-center cursor-pointer" @click="goHome">
+          <img src="@/assets/icons/logo-dark.svg" class="h-[36px] hidden dark:inline-block" />
+          <img src="@/assets/icons/logo-white.svg" class="h-[36px] dark:hidden" />
         </div>
-        <div @click="changeTheme('white')"
-          class="dark:bg-transparent bg-[#E2B578] w-[44px] border border-solid border-[#E2B578] flex items-center justify-center rounded-tr-[6px] rounded-br-[6px]">
-          <img src="@/assets/icons/white-b.svg" class="h-[20px] hidden dark:inline-block" />
-          <img src="@/assets/icons/white.svg" class="h-[20px] dark:hidden" />
-        </div>
-      </div>
-      <selectNetwork></selectNetwork>
-      <div>
-        <a-button v-if="!isConnectedWallet" @click="showWallet" class="!p-0 ml-8" type="primary">Connect Wallet</a-button>
-        <a-dropdown v-if="isConnectedWallet">
-          <div class="ml-8 px-3 border border-solid border-[#E2B578] rounded-[8px] flex h-[40px] items-center">
-            <img src="@/assets/icons/metamask-icon.svg" class="h-[20px] mr-2" />
-            <div class="text-[#E2B578] dark:text-[#FFFFFF]">{{ walletAccount }}</div>
+        <div @click="goPrjects" :class="{ 'header-menu-line': selectedNavTitle === 'projects' }"
+             class="ml-12 mr-8 header-text-css" id="pro">Project</div>
+        <a-dropdown>
+          <div class="header-text-css"
+               :class="{ 'header-menu-line': selectedNavTitle === 'dashboard' || selectedNavTitle === 'miwaspace' }"
+               @click.stop>
+            Middleware
+            <img src="@/assets/icons/skx.svg" alt="" class="h-[7px] hidden up-tran">
+            <img src="@/assets/icons/skx1.svg" alt="" class="h-[7px] inline-block up-tran">
           </div>
           <template #overlay>
             <a-menu>
-              <a-menu-item @click="visibleDisconnect = true">
-                <a href="javascript:;" style="color:black;" class="flex items-center">
-                  <img src="@/assets/icons/disconnect.svg" class="h-[16px] mr-2" />
-                  Disconnect
-                </a>
+              <a-menu-item @click="goDashboard">
+                Dashboard
+              </a-menu-item>
+              <a-menu-item @click="goMiwaspace">
+                Miwaspace
               </a-menu-item>
             </a-menu>
           </template>
         </a-dropdown>
+        <!-- <div @click="goAgent" :class="{ 'header-menu-line': selectedNavTitle == 'aiAgent' }" class="ml-8 header-text-css"
+          id="pro">AI Agent</div> -->
+        <div @click="goTemplate" class="ml-8 mr-8 header-text-css"
+             :class="{ 'header-menu-line': selectedNavTitle === 'template' }">
+          Template</div>
+        <div @click="goDoc" class="mr-8 header-text-css">Docs</div>
       </div>
-      <div class="ml-8">
+      <div class="flex items-center">
+        <div class="cursor-pointer flex h-[36px]">
+          <div @click="changeTheme('dark')"
+               class="dark:bg-[#E2B578] w-[44px] border border-solid border-[#E2B578] flex items-center justify-center rounded-tl-[6px] rounded-bl-[6px]">
+            <img src="@/assets/icons/dark-b.svg" class="h-[20px] hidden dark:inline-block" />
+            <img src="@/assets/icons/dark.svg" class="h-[20px] dark:hidden" />
+          </div>
+          <div @click="changeTheme('white')"
+               class="dark:bg-transparent bg-[#E2B578] w-[44px] border border-solid border-[#E2B578] flex items-center justify-center rounded-tr-[6px] rounded-br-[6px]">
+            <img src="@/assets/icons/white-b.svg" class="h-[20px] hidden dark:inline-block" />
+            <img src="@/assets/icons/white.svg" class="h-[20px] dark:hidden" />
+          </div>
+        </div>
+        <selectNetwork></selectNetwork>
+        <div>
+          <a-button v-if="!isConnectedWallet" @click="showWallet" class="!p-0 ml-8" type="primary">Connect Wallet</a-button>
+          <a-dropdown v-if="isConnectedWallet">
+            <div class="ml-8 px-3 border border-solid border-[#E2B578] rounded-[8px] flex h-[40px] items-center">
+              <img src="@/assets/icons/metamask-icon.svg" class="h-[20px] mr-2" />
+              <div class="text-[#E2B578] dark:text-[#FFFFFF]">{{ walletAccount }}</div>
+            </div>
+            <template #overlay>
+              <a-menu>
+                <a-menu-item @click="visibleDisconnect = true">
+                  <a href="javascript:;" style="color:black;" class="flex items-center">
+                    <img src="@/assets/icons/disconnect.svg" class="h-[16px] mr-2" />
+                    Disconnect
+                  </a>
+                </a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
+        </div>
+        <div class="ml-8">
+          <a-dropdown>
+            <img v-if="loginType == 1" :src="githubAvatarUrl" class="h-[40px] rounded-full" />
+            <img v-else class="h-[40px] rounded-full" :src="avatarURL" />
+            <template #overlay>
+              <a-menu>
+                <div v-if="loginType == 1" class="px-[12px] py-[4px] h-[40px] text-[#7B7B7B]">
+                  <img src="@/assets/icons/User.svg" class="h-[16px] mr-2" />
+                  <span>Signed in as </span>
+                  <span class="font-bold">{{ username }}</span>
+                </div>
+                <div v-if="loginType == 2 && username" class="px-[12px] py-[4px] h-[40px] text-[#7B7B7B]">
+                  <img src="@/assets/icons/User.svg" class="h-[16px] mr-2" />
+                  <span>Signed in as </span>
+                  <span class="font-bold">{{ username }}</span>
+                </div>
+                <a-menu-item class="" v-if='loginType == 2 && !username'>
+                  <div class="py-[4px]" @click="githubInstall">
+                    <img src="@/assets/icons/User.svg" class="h-[16px] mr-2" />
+                    Connect Github
+                  </div>
+                </a-menu-item>
+                <div class="w-full h-[1px] border border-solid border-[#F4F4F4]"></div>
+                <a-menu-item class="">
+                  <div class="py-[4px]" @click="handleOrder">
+                    <img src="@/assets/icons/order.svg" class="h-[16px] mr-2" />
+                    Your Orders
+                  </div>
+                </a-menu-item>
+                <div class="w-full h-[1px] border border-solid border-[#F4F4F4]"></div>
+                <a-menu-item class="">
+                  <div class="py-[4px]" @click="signOut">
+                    <img src="@/assets/icons/Sign-Out.svg" class="h-[16px] mr-2" />
+                    Sign out
+                  </div>
+                </a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <div class="popup-mask head-menu" v-if="showMenu">
+    <div class="close-btn" @click="showMenu=false">
+      <CloseOutlined />
+    </div>
+    <div class="head-menu-content">
+      <div class="ml-8 mr-8 mb-4">
         <a-dropdown>
           <img v-if="loginType == 1" :src="githubAvatarUrl" class="h-[40px] rounded-full" />
           <img v-else class="h-[40px] rounded-full" :src="avatarURL" />
@@ -106,6 +170,69 @@
           </template>
         </a-dropdown>
       </div>
+      <div>
+        <div class="cursor-pointer flex h-[36px] ml-8 mb-4">
+          <div @click="changeTheme('dark')"
+               class="dark:bg-[#E2B578] w-[44px] border border-solid border-[#E2B578] flex items-center justify-center rounded-tl-[6px] rounded-bl-[6px]">
+            <img src="@/assets/icons/dark-b.svg" class="h-[20px] hidden dark:inline-block" />
+            <img src="@/assets/icons/dark.svg" class="h-[20px] dark:hidden" />
+          </div>
+          <div @click="changeTheme('white')"
+               class="dark:bg-transparent bg-[#E2B578] w-[44px] border border-solid border-[#E2B578] flex items-center justify-center rounded-tr-[6px] rounded-br-[6px]">
+            <img src="@/assets/icons/white-b.svg" class="h-[20px] hidden dark:inline-block" />
+            <img src="@/assets/icons/white.svg" class="h-[20px] dark:hidden" />
+          </div>
+        </div>
+        <selectNetwork></selectNetwork>
+        <div>
+          <a-button v-if="!isConnectedWallet" @click="showWallet" class="!p-0 ml-8" type="primary">Connect Wallet</a-button>
+          <a-dropdown v-if="isConnectedWallet">
+            <div class="ml-8 mt-4 px-3 border border-solid border-[#E2B578] rounded-[8px] flex h-[40px] items-center" style="width: 300px">
+              <img src="@/assets/icons/metamask-icon.svg" class="h-[20px] mr-2" />
+              <div class="text-[#E2B578] dark:text-[#FFFFFF]">{{ walletAccount }}</div>
+            </div>
+            <template #overlay>
+              <a-menu>
+                <a-menu-item @click="visibleDisconnect = true">
+                  <a href="javascript:;" style="color:black;" class="flex items-center">
+                    <img src="@/assets/icons/disconnect.svg" class="h-[16px] mr-2" />
+                    Disconnect
+                  </a>
+                </a-menu-item>
+              </a-menu>
+            </template>
+          </a-dropdown>
+        </div>
+      </div>
+      <div>
+        <div @click="goPrjects" :class="{ 'header-menu-line': selectedNavTitle === 'projects' }"
+             class="ml-8 mr-8 header-text-css" id="pro">Project</div>
+        <a-dropdown>
+          <div class="ml-8 mr-8 header-text-css"
+               :class="{ 'header-menu-line': selectedNavTitle === 'dashboard' || selectedNavTitle === 'miwaspace' }"
+               @click.stop>
+            Middleware
+            <img src="@/assets/icons/skx.svg" alt="" class="h-[7px] hidden up-tran">
+            <img src="@/assets/icons/skx1.svg" alt="" class="h-[7px] inline-block up-tran">
+          </div>
+          <template #overlay>
+            <a-menu>
+              <a-menu-item @click="goDashboard">
+                Dashboard
+              </a-menu-item>
+              <a-menu-item @click="goMiwaspace">
+                Miwaspace
+              </a-menu-item>
+            </a-menu>
+          </template>
+        </a-dropdown>
+        <!-- <div @click="goAgent" :class="{ 'header-menu-line': selectedNavTitle == 'aiAgent' }" class="ml-8 header-text-css"
+          id="pro">AI Agent</div> -->
+        <div @click="goTemplate" class="ml-8 mr-8 header-text-css"
+             :class="{ 'header-menu-line': selectedNavTitle === 'template' }">
+          Template</div>
+        <div @click="goDoc" class="ml-8 mr-8 header-text-css">Docs</div>
+      </div>
     </div>
   </div>
   <Wallets ref="showWallets" @setWalletBtn="setWalletBtn"></Wallets>
@@ -131,19 +258,23 @@ import { watch } from "vue";
 import { useRouter, useRoute } from "vue-router";
 import { onMounted, reactive, ref } from "vue";
 import useAssets from "@/stores/useAssets";
+import {isMobileDevice} from '@/utils/tool'
 import Wallets from "../Wallets.vue";
 import { useThemeStore } from "@/stores/useTheme";
 import { useWalletAddress } from "@/stores/useWalletAddress";
 import selectNetwork from "./components/selectNetwork.vue";
 import { generateAvatarURL } from '@cfx-kit/wallet-avatar';
-
+import {
+  UnorderedListOutlined,
+  CloseOutlined
+} from '@ant-design/icons-vue';
 const theme = useThemeStore()
 const walletAddress = useWalletAddress()
 const { getImageURL } = useAssets();
 const router = useRouter();
 const route = useRoute();
 const avatarURL = ref('')
-
+const showMenu = ref(false)
 
 const loginType = ref();
 const defaultTheme = ref("dark");
@@ -178,25 +309,30 @@ const goHome = () => {
 const goPrjects = () => {
   selectedNavTitle.value = 'projects';
   router.push("/projects");
+  showMenu.value = false
 }
 const goAgent = () => {
   selectedNavTitle.value = 'aiAgent';
   router.push("/aiAgent/work");
+  showMenu.value = false
 }
 
 // 跳官网文档
 const goDoc = () => {
   window.open('https://hamsternet.io/docs/')
+  showMenu.value = false
 }
 
 const goTemplate = () => {
   selectedNavTitle.value = 'template';
   router.push('/projects/create')
+  showMenu.value = false
 }
 
 const goMiwaspace = () => {
   selectedNavTitle.value = 'miwaspace';
   router.push("/middleware/miwaspace?key=1");
+  showMenu.value = false
 }
 
 const githubInstall = () => {
@@ -210,6 +346,7 @@ const githubInstall = () => {
 const goDashboard = () => {
   selectedNavTitle.value = 'dashboard';
   router.push("/middleware/dashboard");
+  showMenu.value = false
 }
 
 const changeTheme = (val: string) => {
@@ -429,9 +566,45 @@ html[data-theme='dark'] {
     border: 1px solid #EBEBEB;
   }
 }
+@media screen and (max-width: 600px) {
+  .default-header {
+    position: fixed;
+    top: 0;
+    padding: 0 12px;
+    width: 100%;
+    height: 64px;
+    z-index: 9;
+  }
+}
 </style>
 <style scoped>
+.popup-mask{
+  width: 100%;
+  height: 100%;
+  position: fixed;
+  z-index: 100;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgb(29,28,26);
+  .close-btn{
+    color: #fff;
+    font-size: 32px;
+    text-align: right;
+    padding-top: 4px;
+    padding-right: 12px;
+  }
+  .head-menu-content{
+    background: rgb(29,28,26);
+    padding: 20px 0;
+  }
+}
+.head-menu{
+
+}
 .header-text-css {
+  width: 140px;
   @apply text-[#E2B578] hover:text-[#E4C08F] active:text-[#CE9C58] text-[16px] cursor-pointer h-[64px] leading-[64px];
 }
 </style>

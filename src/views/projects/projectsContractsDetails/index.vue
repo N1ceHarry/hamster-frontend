@@ -37,8 +37,8 @@
         </div>
         <div v-if="frameType ===  5">
           <div class="text-[24px] dark:text-[#FFFFFF] font-bold mb-[32px]">Contract Explorer</div>
-          <div class="flex bg-css dark:!border-[#434343]">
-            <div class="w-1/3 left-css dark:!border-[#434343] p-[30px]">
+          <div class="bg-css dark:!border-[#434343]" :class="isMobileDevice()?'':'flex'">
+            <div class="left-css dark:!border-[#434343] p-[30px]" :class="isMobileDevice()?'w-full':'w-1/3'">
               <div class="flex items-center mb-4 font-bold">
                 <img src="@/assets/icons/send-w.svg" class="h-[20px] dark:hidden mr-[5px]" />
                 <img src="@/assets/icons/send-dark.svg" class="h-[20px] hidden dark:inline-block mr-[5px]" />Modules
@@ -50,7 +50,7 @@
                   v-for="(item, index) in moduleList" :key="index">{{ item }}</div>
               </div>
             </div>
-            <div class="w-2/3 p-[30px]">
+            <div class="w-2/3 p-[30px]"  :class="isMobileDevice()?'w-full':'w-2/3'">
               <div class="mb-6 font-bold">Functions</div>
               <NoData v-if="functionList.length === 0"></NoData>
               <a-collapse class=" dark:!border-[#434343] dark:!shadow-none" v-model:activeKey="collapsectiveKey" v-for="(items, keys) in functionList" :key="keys">
@@ -105,7 +105,7 @@ import { apiGetProjectsDetail } from "@/apis/projects"
 import {TransactionBlock, JsonRpcProvider, Connection, testnetConnection} from '@mysten/sui.js';
 import { WalletStandardAdapterProvider } from "@mysten/wallet-adapter-wallet-standard"
 import {useI18n} from "vue-i18n";
-import {sleep} from "@/utils/tool";
+import { isMobileDevice, sleep } from "@/utils/tool";
 
 const router = useRouter();
 const route = useRoute()

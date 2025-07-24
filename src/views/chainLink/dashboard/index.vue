@@ -1,8 +1,8 @@
 <template>
-  <div class="flex dashboard-index dark:bg-[#1D1C1A] bg-[#FFFFFF]  rounded-[12px]">
+  <div class="dashboard-index dark:bg-[#1D1C1A] bg-[#FFFFFF]  rounded-[12px]" :class="isMobileDevice()?'':'flex'">
     <div
       class="dashboard-index-left px-[12px] pt-[30px] border-t-0 border-b-0 border-l-0 border-r-2 border-solid dark:border-[#434343] border-[#EBEBEB]">
-      <a-menu :openKeys="openKeys" v-model:selectedKeys="selectedKeys" style="width: 260px" :theme="theme.themeValue"
+      <a-menu :openKeys="openKeys" v-model:selectedKeys="selectedKeys" :style="isMobileDevice()?'width: 100%':'width: 260px'" :theme="theme.themeValue"
         mode="inline">
         <div v-for="item in menuRouterList">
           <a-menu-item :key="item.name" :disabled="item.meta.isTag" v-if="item.name != 'RPC'">
@@ -34,7 +34,7 @@
         </div>
       </a-menu>
     </div>
-    <div class="p-[32px] dashboard-index-right">
+    <div class="dashboard-index-right" :class="isMobileDevice()?'p-[8px] pb-[20px]':'p-[32px] '">
       <router-view />
     </div>
   </div>
@@ -44,6 +44,7 @@ import { ref, onBeforeMount, watch, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useThemeStore } from "@/stores/useTheme";
 import { apiGetIfOpenService } from '@/apis/middleWare'
+import {isMobileDevice} from "@/utils/tool";
 const theme = useThemeStore();
 const router = useRouter();
 const menuRouterList = ref<any>([]);

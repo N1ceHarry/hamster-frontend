@@ -33,14 +33,14 @@
       </div>
     </div>
     <div class="title mt-[50px]">Overview</div>
-    <div class="card-border">
+    <div class="card-border" :class="isMobileDevice()?'p-[20px]':'p-[30px]'">
       <div class="font-medium mb-[10px]">Credit Cost (Last 24 hours)</div>
-      <div class="flex pb-[30px] border-bottom">
-        <div class="w-2/3">
+      <div class="pb-[30px] border-bottom" :class="isMobileDevice()?'':'flex'">
+        <div :class="isMobileDevice()?'w-full':'w-2/3'">
           <EchartBar v-if="Object.keys(creditCostData).length > 0" echartsId="CreditCost" :echartsData="creditCostData"></EchartBar>
           <NoData v-else></NoData>
         </div>
-        <div class="w-1/3 pl-[30px]">
+        <div :class="isMobileDevice()?'w-full':'w-1/3 pl-[30px]'">
           <div class="flex items-center mb-[40px] relative">
             <div class="text-[30px] font-extrabold text-[#E2B578] mr-[20px]">Free</div>
             <div class="absolute right-0">
@@ -71,12 +71,12 @@
         <a-select @change="getMainChain" class="!ml-[20px] w-[150px]" v-model:value="optionParams.opChain" autocomplete="off" :options="optionEcosystems.map((item:any) => ({ value: item.ecosystemCode, label: item.ecosystemName }))" ></a-select>
         <a-select @change="getMainChain" class="!ml-[20px] w-[150px]" v-model:value="optionParams.time" autocomplete="off" :options="optionTime" ></a-select>
       </div>
-      <div class="flex mt-[30px]">
-        <div class="w-2/3 h-[580px]">
+      <div class="mt-[30px]" :class="isMobileDevice()?'':'flex'">
+        <div class="h-[580px]" :class="isMobileDevice()?'w-full':'w-2/3'">
           <EchartLine v-if="Object.keys(mainChart).length > 0" echartsId="echartLine" :echartsData="mainChart"></EchartLine>
           <NoData v-else></NoData>
         </div>
-        <div class="w-1/3 pl-[30px]">
+        <div :class="isMobileDevice()?'w-full pt-[30px]':'w-1/3 pl-[30px]'">
           <div class="flex justify-center items-center h-[180px]">
             <EchartPie v-if="circlePanel1Top5.length > 0" titleText="Top 5" echartsId="echartTop5" :echartsData="circlePanel1Top5"></EchartPie>
             <NoData v-else></NoData>
@@ -111,6 +111,7 @@ import {
   apiGetZanUserAuthed, apiZanPlan, apiZanEcosystemsDigest, apiZanApiKeyPage,
   apiZanApiKeyCreditCostLast24, apiZanApiKeyRequestStats, apiZanApiKeyRequestActivityStats,apiZanApiKeyRequestOriginStats, apiGetZanAuthUrl
 } from "@/apis/middlewareRPC";
+import { isMobileDevice } from "@/utils/tool";
 
 const router = useRouter()
 
@@ -414,7 +415,7 @@ onMounted(async () => {
   border-bottom: 1px solid #EBEBEB;
 }
 .card-border{
-  @apply border border-solid border-[#EBEBEB] dark:border-[#434343] rounded-[12px] p-[30px]
+  @apply border border-solid border-[#EBEBEB] dark:border-[#434343] rounded-[12px]
 }
 .card-label{
   @apply text-[#A0A0A0] mr-[10px];

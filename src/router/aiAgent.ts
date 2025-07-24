@@ -15,7 +15,7 @@ const aiAgentRoute = [
       },
       {
         path: "/aiAgent/marketplace",
-        name: "Marketplace",
+        // name: "Marketplace",
         key: 'Marketplace',
         redirect: "/aiAgent/marketplace",
         meta: {
@@ -42,7 +42,7 @@ const aiAgentRoute = [
       },
       {
         path: "/aiAgent/agent",
-        name: "Agent",
+        // name: "Agent",
         redirect: "/aiAgent/agent",
         meta: {
           isShow: false,

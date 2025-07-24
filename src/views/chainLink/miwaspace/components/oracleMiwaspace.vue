@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="my-10">
+    <div class="my-10" :class="isMobileDevice()?'p-[12px]':''">
       <span class="text-2xl font-bold">Oracle</span>
       <div class="text-base mt-2" style="text-align: justify; text-justify: inter-word;">
         The Oracle is the messenger for the interaction between the blockchain and the real world data. 
@@ -11,7 +11,7 @@
       </div>
     </div>
 
-    <div class="border border-[#EBEBEB] border-solid rounded-xl p-10">
+    <div class="border border-[#EBEBEB] border-solid rounded-xl" :class="isMobileDevice()?'p-4':'p-10'">
       <div>
         <span class="text-[#E2B578] font-bold text-2xl">Chainlink</span>
         <div class="text-base text-[#73706E] mt-2.5" style="text-align: justify; text-justify: inter-word;">The decentralized oracle network was proposed by (DON) Chainlink. 
@@ -20,7 +20,7 @@
         </div>
       </div>
 
-      <div class="relative oracle-container">
+      <div class="relative oracle-container" :class="isMobileDevice()?'p-[16px]':'p-[30px]'">
         <span class="text-base font-bold">Hamslink</span>
         <div class="text-sm h-[110px] content overflow-y-auto">
           Chainlink Functions is a web3 serverless development platform that allows you to fetch data from any API and perform 
@@ -43,6 +43,7 @@
   import { ref, toRefs } from 'vue'
   import { useRouter } from 'vue-router';
   import { apiPostCustomerOpenService } from '@/apis/middleWare'
+  import { isMobileDevice } from "@/utils/tool";
 
   const router = useRouter()
   const props = defineProps({
@@ -73,8 +74,8 @@
     display: inline-block;
     margin-right: 20px;
     width: 456px;
+    max-width: 100%;
     height: 266px;
-    padding: 30px;
     background: rgba(226,181,120,0.1);
     border-radius: 12px;
     border: 1px solid #EBEBEB;

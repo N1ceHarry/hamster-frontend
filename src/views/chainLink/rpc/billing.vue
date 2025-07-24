@@ -4,7 +4,7 @@
     <div class="border border-solid border-[#EBEBEB] rounded-[12px] dark:border-[#434343] p-[30px]">
       <div class="text-[36px] font-black text-[#E2B578] text-center mt-[20px]">Your Plan</div>
       <div class="text-[21px] text-center mb-[50px]">Manage your subscription</div>
-      <div class="grid grid-cols-3 gap-[10px]">
+      <div class="grid gap-[10px]" :class="isMobileDevice()?'grid-cols-1':'grid-cols-3'">
         <div class="card-div">
           <div class="card-title">Usage</div>
           <div class="card-content">
@@ -75,6 +75,7 @@ import { useRouter } from "vue-router";
 import { formatDateToLocale } from '@/utils/dateUtil';
 import { setMillionValue, setNumberValue } from './components/rpcData'
 import { apiGetZanUserAuthed, apiZanPlan } from "@/apis/middlewareRPC";
+import { isMobileDevice } from "@/utils/tool";
 
 const router = useRouter()
 

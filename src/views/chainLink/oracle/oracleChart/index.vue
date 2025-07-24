@@ -7,8 +7,8 @@
       </a-tabs>
     </div>
 
-    <div class="flex">
-      <div class="flex-1">
+    <div :class="isMobileDevice()?'':'flex'">
+      <div :class="isMobileDevice()?'w-full':'flex-1'">
         <div class="flex justify-between">
           <!-- <a-select ref="select" v-model:value="selectTimeValue" style="width: 120px; margin-right: 20px;"
             @change="handleChange">
@@ -56,6 +56,7 @@ import addFunds from '../mySubscription/components/addFunds.vue'
 import addConsumers from '../mySubscription/components/addConsumers.vue'
 import { apiGetSubscriptionParams, apiGetOracleEchartParams, getCustomerBalance } from '@/apis/chainlink'
 import { useRouter } from 'vue-router'
+import { isMobileDevice } from "@/utils/tool";
 
 const router = useRouter();
 

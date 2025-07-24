@@ -1,6 +1,6 @@
 <template>
   <div>
-    <div class="my-10">
+    <div class="my-10" :class="isMobileDevice()?'p-[12px]':''">
       <span class="text-2xl font-bold">ZKP</span>
       <div class="text-base mt-2" style="text-align: justify; text-justify: inter-word;">
         As we all know, zero-knowledge proof can play a very important role in the expansion of Ethereum and data privacy, 
@@ -23,11 +23,14 @@
 <style lang="less" scoped>
   .zkp-container {
     width: 456px;
+    max-width: 100%;
     height: 266px;
-    padding: 30px;
+    padding: 55px 30px 30px;
     background: rgba(226,181,120,0.1);
     border-radius: 12px;
     border: 1px solid #EBEBEB;
-    padding-top: 55px;
   }
 </style>
+<script setup lang="ts">
+import { isMobileDevice } from "@/utils/tool";
+</script>

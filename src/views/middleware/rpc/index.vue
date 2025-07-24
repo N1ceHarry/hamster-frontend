@@ -22,13 +22,12 @@
     <div class="flex justify-between mt-[16px]">
          <a-card>
             <a-row>
-                <a-col :span="16">
+                <a-col :span="isMobileDevice()?'24':'16'">
                     <credit-cost24/>
                 </a-col>
-                <a-col :span="8">
+                <a-col :span="isMobileDevice()?'24':'8'">
                     <credit-info/>
                 </a-col>
-
             </a-row>
         </a-card>
 
@@ -54,6 +53,7 @@ import RpcAppPanel from "@/views/middleware/rpc/rpcAppPanel.vue";
 import CreditInfo from "@/views/middleware/rpc/creditInfo.vue";
 import CreditCost24 from "@/views/middleware/rpc/creditCost24.vue";
 import RequestStats from "@/views/middleware/rpc/requestStats.vue";
+import {isMobileDevice} from "@/utils/tool";
 const router = useRouter();
 const theme = useThemeStore();
 
